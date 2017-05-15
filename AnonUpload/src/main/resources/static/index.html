@@ -1,0 +1,17 @@
+<html>
+<body>
+<!-- this "enctype" is used when you have a multi-part file upload -->
+<form action="/upload" enctype="multipart/form-data" method="post">
+    <input type="file" name="file"/>
+    <button type="submit">Upload</button>
+</form>
+<div id="fileList">
+    <!--<a href="/path/to/our/temp-file.png">File.png</a>-->
+</div>
+<!-- needs to match the filename in the resources/static directory
+for jquery -->
+<script src="jquery-3.2.1.js"></script>
+<!-- include the script file we just created -->
+<script src="main.js"></script>
+</body>
+</html>
