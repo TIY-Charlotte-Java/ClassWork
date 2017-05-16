@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome home</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/jquery.js" ></script>
+    <script src="/script.js" ></script>
+</head>
+<body>
+<a href="/">All</a>
+<a href="/?category=Furniture">Furniture</a>
+<a href="/?category=Alcohol">Alcohol</a>
+<a href="/?category=Shoes">Shoes</a>
+<a href="/?category=Food">Food</a>
+<a href="/?category=Jewelry">Jewelry</a>
+
+<br><br>
+<form action="/" method="get">
+    <input type="text" placeholder="Search" name="search"/>
+    <button type="submit">Search</button>
+</form>
+
+<br><br>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Credit Card Number</th>
+        <th>CCV</th>
+        <th>Date</th>
+        <th>Category</th>
+    </tr>
+
+    {{#purchases}}
+    <tr class="creditCard">
+        <td>{{customer.name}}</td>
+        <td>{{customer.email}}</td>
+        <td class = "showCC" data-ccnum="{{creditCard}}">xxxx xxxx xxxx xxxx</td>
+        <td>{{ccv}}</td>
+        <td>{{date}}</td>
+        <td>{{category}}</td>
+    </tr>
+    {{/purchases}}
+</table>
+
+{{#showNext}}
+<a href="/?page={{nextPage}}{{#category}}&category={{.}}{{/category}}">Next</a>
+{{/showNext}}
+
+</body>
+</html>
