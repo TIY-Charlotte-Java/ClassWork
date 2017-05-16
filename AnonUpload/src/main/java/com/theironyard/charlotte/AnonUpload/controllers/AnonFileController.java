@@ -1,6 +1,7 @@
 package com.theironyard.charlotte.AnonUpload.controllers;
 
 import com.theironyard.charlotte.AnonUpload.entities.AnonFile;
+import com.theironyard.charlotte.AnonUpload.entities.DeleteRunnable;
 import com.theironyard.charlotte.AnonUpload.services.AnonFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class AnonFileController {
     // multipart file represents the file we're uploading
     // httpservletresponse is how we can modify the response before
     // it is sent back. in this case, we're redirecting.
-    public void upload(MultipartFile file, HttpServletResponse response) throws IOException {
+    public void upload(MultipartFile file, int expirationTime, HttpServletResponse response) throws IOException {
         // even though this class name is "File",
         // we are referencing a directory here.
         // the directory is /public/files (with
@@ -52,7 +53,7 @@ public class AnonFileController {
         // to it in our database.
         // first parameter: the name of the temporary file
         // second parameter: the name of the file you uploaded.
-        AnonFile anonFile = new AnonFile(f.getName(), file.getOriginalFilename());
+        AnonFile anonFile = new AnonFile(f.getName(), file.getOriginalFilename(), expirationTime);
         files.save(anonFile);
 
         // for regular controllers, we would do this:
@@ -63,7 +64,31 @@ public class AnonFileController {
     }
 
     @RequestMapping(path = "/files", method = RequestMethod.GET)
-    public List<AnonFile> getFiles() {
-        return (List<AnonFile>) files.findAll();
+    public List<AnonFile> getFiles() throws InterruptedException {
+        List<AnonFile> anonFiles = (List)files.findAll();
+
+        for (AnonFile file : anonFiles) {
+            // Our goal is to delete this file after file.expirationTime seconds.
+            // create new thread
+            Thread t = new Thread(new DeleteRunnable(files, file));
+
+            // begin execution of thread
+            t.start();
+        }
+
+        return anonFiles;
     }
+
+
+
+    // an example of how to use Thread.sleep:
+//    public void testMethod() throws InterruptedException {
+//        int count = 1;
+//
+//        while (true) {
+//            count++;
+//            System.out.println(count);
+//            Thread.sleep(1000);
+//        }
+//    }
 }

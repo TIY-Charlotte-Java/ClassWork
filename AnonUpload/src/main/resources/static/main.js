@@ -3,10 +3,10 @@
 function getFiles(filesData) {
     // for each file in the file data:
     for (var i in filesData) {
-        // make a new anchor tag
+        // make a new image tag
         var elem = $("<img>");
 
-        // set the anchor tag's href to files/ + this file's filename
+        // set the image tag's src to files/ + this file's filename
         elem.attr("src", "files/" + filesData[i].filename);
 
         // set the text of the anchor to the original file name

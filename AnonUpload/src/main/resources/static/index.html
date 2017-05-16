@@ -3,6 +3,7 @@
 <!-- this "enctype" is used when you have a multi-part file upload -->
 <form action="/upload" enctype="multipart/form-data" method="post">
     <input type="file" name="file"/>
+    <input type="number" name="expirationTime" />
     <button type="submit">Upload</button>
 </form>
 <div id="fileList">
