@@ -26,8 +26,11 @@ public class ImgurDataController {
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String homePage(Model model) {
-        ImgurData imageData = imageService.getData();
+    public String homePage(Model model, String subreddit, String sortType) {
+        // action accepts a subreddit query string parameter.
+
+        // we pass this subreddit parameter into our service call
+        ImgurData imageData = imageService.getData(subreddit, sortType);
 
         // take a gander at the image data returned by our service
         model.addAttribute("images", imageData.getImages());

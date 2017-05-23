@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 
-// Client ID: f57abf3d29060ca
+// Client ID:
 
 // ANYTHING THAT SAYS "SECRET" SHOULD NORMALLY NOT EVER BE IN
 // YOUR CODE
