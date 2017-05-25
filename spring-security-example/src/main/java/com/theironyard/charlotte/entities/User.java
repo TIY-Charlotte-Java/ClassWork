@@ -1,7 +1,6 @@
 package com.theironyard.charlotte.entities;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -18,9 +17,6 @@ public class User {
 
     @Column(nullable = false)
     boolean enabled;
-
-    @OneToMany(targetEntity = Authority.class)
-    List<Authority> authorities;
 
 
     public User() {
@@ -56,11 +52,4 @@ public class User {
         this.enabled = enabled;
     }
 
-    public List<Authority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(List<Authority> authorities) {
-        this.authorities = authorities;
-    }
 }

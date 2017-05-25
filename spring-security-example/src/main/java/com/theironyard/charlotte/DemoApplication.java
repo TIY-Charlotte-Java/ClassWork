@@ -24,6 +24,7 @@ public class DemoApplication extends WebSecurityConfigurerAdapter {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
+	// we register our PasswordEncoder bean, since we'll need a reference to a password Encoder
 	@Bean
     public PasswordEncoder encoder() {
 	    return new BCryptPasswordEncoder();
@@ -36,11 +37,23 @@ public class DemoApplication extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
+                // antMatchers match incoming requests.
+                // this first matcher is how we permit access to /, /home, and /new-user.
                 .antMatchers("/", "/home", "/new-user").permitAll()
+
+                // with this ant matcher, we restrict access to the /admin-page for just those who
+                // have the ROLE_ADMIN role.
                 .antMatchers("/admin-page").hasRole("ADMIN")
+
+                // any other request requires authentication.
                 .anyRequest().authenticated()
                 .and()
+            // spring security also lets us specify
+            // that we're going to be using form-based
+            // authentication to login.
             .formLogin()
+                // this specifies that our login page is at /login, and everyone
+                // is able to see it.
                 .loginPage("/login")
                 .permitAll()
                 .and()
@@ -48,6 +61,8 @@ public class DemoApplication extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
                 .permitAll()
                 .and()
+
+            // We're disabling Cross-site-script-forgery protection on this site.
             .csrf().disable();
     }
 

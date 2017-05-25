@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class UserController {
+    // the user service we're injecting here will be responsible for
+    // managing the creation of users
     UserService userService;
 
     public UserController(UserService userService) {
